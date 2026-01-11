@@ -1,6 +1,31 @@
 ; This file contains templates and actual functions to work on arrays in ARM assembly.
     AREA array_functs, CODE, READONLY
 
+; ===== [TEMPLATE] Iterate on array =====
+iterate_over_array PROC
+	; Iterate over an array of 32bit integers
+	; R0 Numero di elementi nel vettore
+	; R1 Vettore da scorrere
+	MOV   r12, sp
+	STMFD sp!,{r4-r8,r10-r11,lr}
+
+	; ALGORITMO 
+	CMP R0, #0               ; Controlla se la dimensione è <= 0
+	BLE exit_iterate_loop    ; Se R0 <= 0, salta direttamente all'uscita
+
+iterate_loop
+	LDR R4, [R1], #4         ; Carica l'elemento corrente in R4 e avanza il puntatore R1
+
+	; YOUR CODE
+	SUBS R0, R0, #1          ; Decrementa il contatore R0
+	BGT iterate_loop         ; Ripeti finchè R0 > 0
+
+exit_iterate_loop
+	; RETURN SOMETHING!!!!
+	
+	LDMFD sp!,{r4-r8,r10-r11,pc} ; Ripristina i registri e ritorna
+	ENDP
+
 ; ===== Bubble Sort =====
 bsort PROC
     ; Bubble sort an array of 32bit integers in place
@@ -145,6 +170,56 @@ endFunction_is_monotonic_increasing
 	LDMFD sp!,{r4-r8,r10-r11,pc} ; Ripristina i registri e ritorna
     ENDFUNC
 
-;TODO: array sum
+; ===== Sum all values in the array =====
+sum_array PROC
+	; Sum all values of an array of 32bit integers
+	; R0 Numero di elementi nel vettore
+	; R1 Vettore da scorrere
+	MOV   r12, sp
+	STMFD sp!,{r4-r8,r10-r11,lr}
+
+	; ALGORITMO
+	MOV R5, #0			 ; Contiene la somma
+	CMP R0, #0
+	BLE exit_sum_loop    ; Se R0 <= 0, salta direttamente all'uscita
+
+sum_loop
+	LDR R4, [R1], #4         ; Carica l'elemento corrente in R4 e avanza il puntatore R1
+
+	ADD R5, R5, R4		 ; Somma il valore corrente
+	SUBS R0, R0, #1       ; Decrementa il contatore R0
+	BGT sum_loop         ; Ripeti finchè R0 > 0
+
+exit_sum_loop
+	MOV R0, R5
 	
-;TODO: array average
+	LDMFD sp!,{r4-r8,r10-r11,pc} ; Ripristina i registri e ritorna
+	ENDP
+	
+avg_array PROC
+	; AVG of values of an array of 32bit integers
+	; R0 Numero di elementi nel vettore
+	; R1 Vettore da scorrere
+	MOV   r12, sp
+	STMFD sp!,{r4-r8,r10-r11,lr}
+
+	; ALGORITMO
+	MOV R6, R0			 ; Mi salvo il numero di elementi
+	MOV R5, #0			 ; Contiene la somma
+	CMP R0, #0           ; Controlla se il numero di elementi è zero
+	BLE exit_avg_loop    ; Se R0 <= 0, salta direttamente all'uscita
+
+avg_loop
+	LDR R4, [R1], #4         ; Carica l'elemento corrente in R4 e avanza il puntatore R1
+
+	ADD R5, R5, R4		 ; Somma il valore corrente
+	SUBS R0, R0, #1       ; Decrementa il contatore R0
+	BGT avg_loop         ; Ripeti finchè R0 > 0
+
+exit_avg_loop
+	CMP R6, #0
+	MOVLE R0, #0
+	SDIVGT R0, R5, R6		; AVG = SUM / N
+	
+	LDMFD sp!,{r4-r8,r10-r11,pc} ; Ripristina i registri e ritorna
+	ENDP
