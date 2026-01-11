@@ -24,7 +24,7 @@ exit_iterate_loop
 	; RETURN SOMETHING!!!!
 	
 	LDMFD sp!,{r4-r8,r10-r11,pc} ; Ripristina i registri e ritorna
-	ENDFUNC
+	ENDP
 
 ; ===== Bubble Sort =====
 bsort PROC
