@@ -364,7 +364,7 @@ get_max FUNCTION
 	LDR R6, [R0], #4         ; Carica il primo elemento dell'array in R6 (massimo iniziale)
 	SUBS R1, R1, #1          ; Decrementa la dimensione (R1 = dim - 1)
 	MOV R5, #0				 ; Carica l'indice del primo elemento dell'array
-	MOV R7, #0				 ; Indice corrente
+	MOV R7, #1				 ; Indice corrente
 	BLE exitMax              ; Se R1 <= 0, salta direttamente all'uscita
 
 loopMax
@@ -393,7 +393,7 @@ get_min FUNCTION
 	
 	LDR R6, [R0], #4         ; Carica il primo elemento dell'array in R6 (minimo iniziale)
 	MOV R5, #0				 ; Carica l'indice del primo elemento dell'array
-	MOV R7, #0				 ; Indice corrente
+	MOV R7, #1				 ; Indice corrente
 	SUBS R1, R1, #1          ; Decrementa la dimensione (R1 = dim - 1)
 	BLE exitMin              ; Se R1 <= 0, salta direttamente all'uscita
 
