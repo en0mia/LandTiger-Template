@@ -408,7 +408,7 @@ loopMin
 
 exitMin
 	MOV R0, R6               ; Salva il minimo trovato in R0 (registro di ritorno)
-	MOV R1, R5				 ; Salva il massimo indice trovato
+	MOV R1, R5				 ; Salva il minimo indice trovato
 	
 	LDMFD sp!,{r4-r8,r10-r11,pc} ; Ripristina i registri e ritorna
 	ENDFUNC
