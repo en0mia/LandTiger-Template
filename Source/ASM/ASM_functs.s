@@ -363,17 +363,22 @@ get_max FUNCTION
 	
 	LDR R6, [R0], #4         ; Carica il primo elemento dell'array in R6 (massimo iniziale)
 	SUBS R1, R1, #1          ; Decrementa la dimensione (R1 = dim - 1)
+	MOV R5, #0				 ; Carica l'indice del primo elemento dell'array
+	MOV R7, #0				 ; Indice corrente
 	BLE exitMax              ; Se R1 <= 0, salta direttamente all'uscita
 
 loopMax
 	LDR R4, [R0], #4         ; Carica l'elemento corrente in R4 e avanza il puntatore R0
 	CMP R4, R6               ; Confronta l'elemento corrente (R4) con il massimo attuale (R6)
 	MOVGT R6, R4             ; Se R4 > R6, aggiorna il massimo in R6
+	MOVGT R5, R7			 ; Aggiorna il massimo indice in R5
+	ADD R7, R7, #1			 ; Aggiorna l'indice corrente
 	SUBS R1, R1, #1          ; Decrementa il contatore R1
 	BGT loopMax              ; Ripeti finch� R1 > 0
 
 exitMax
 	MOV R0, R6               ; Salva il massimo trovato in R0 (registro di ritorno)
+	MOV R1, R5				 ; Salva il massimo indice trovato
 	
 	LDMFD sp!,{r4-r8,r10-r11,pc}	
 	ENDFUNC
@@ -387,6 +392,8 @@ get_min FUNCTION
 	STMFD sp!,{r4-r8,r10-r11,lr} ; Salva i registri callee-saved nello stack
 	
 	LDR R6, [R0], #4         ; Carica il primo elemento dell'array in R6 (minimo iniziale)
+	MOV R5, #0				 ; Carica l'indice del primo elemento dell'array
+	MOV R7, #0				 ; Indice corrente
 	SUBS R1, R1, #1          ; Decrementa la dimensione (R1 = dim - 1)
 	BLE exitMin              ; Se R1 <= 0, salta direttamente all'uscita
 
@@ -394,11 +401,14 @@ loopMin
 	LDR R4, [R0], #4         ; Carica l'elemento corrente in R4 e avanza il puntatore R0
 	CMP R4, R6               ; Confronta l'elemento corrente (R4) con il minimo attuale (R6)
 	MOVLT R6, R4             ; Se R4 < R6, aggiorna il minimo in R6
+	MOVLT R5, R7			 ; Aggiorna il minimo indice trovato
+	ADD R7, R7, #1			 ; Aggiorna l'indice corrente
 	SUBS R1, R1, #1          ; Decrementa il contatore R1
 	BGT loopMin              ; Ripeti finch� R1 > 0
 
 exitMin
 	MOV R0, R6               ; Salva il minimo trovato in R0 (registro di ritorno)
+	MOV R1, R5				 ; Salva il massimo indice trovato
 	
 	LDMFD sp!,{r4-r8,r10-r11,pc} ; Ripristina i registri e ritorna
 	ENDFUNC
