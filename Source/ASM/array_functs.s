@@ -218,7 +218,7 @@ avg_loop
 
 exit_avg_loop
 	CMP R6, #0
-	MOVLEQ R0, #0
+	MOVLE R0, #0
 	SDIVGT R0, R5, R6		; AVG = SUM / N
 	
 	LDMFD sp!,{r4-r8,r10-r11,pc} ; Ripristina i registri e ritorna
