@@ -206,7 +206,7 @@ avg_array PROC
 	; ALGORITMO
 	MOV R6, R0			 ; Mi salvo il numero di elementi
 	MOV R5, #0			 ; Contiene la somma
-	SUBS R0, R0, #1      ; Decrementa la dimensione (R0 = dim - 1)
+	CMP R0, #0           ; Controlla se il numero di elementi è zero
 	BLE exit_avg_loop    ; Se R0 <= 0, salta direttamente all'uscita
 
 avg_loop
