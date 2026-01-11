@@ -180,7 +180,7 @@ sum_array PROC
 
 	; ALGORITMO
 	MOV R5, #0			 ; Contiene la somma
-	SUBS R0, R0, #1      ; Decrementa la dimensione (R0 = dim - 1)
+	CMP R0, #0
 	BLE exit_sum_loop    ; Se R0 <= 0, salta direttamente all'uscita
 
 sum_loop
@@ -194,7 +194,7 @@ exit_sum_loop
 	MOV R0, R5
 	
 	LDMFD sp!,{r4-r8,r10-r11,pc} ; Ripristina i registri e ritorna
-	ENDFUNC
+	ENDP
 	
 avg_array PROC
 	; AVG of values of an array of 32bit integers
@@ -217,7 +217,9 @@ avg_loop
 	BGT avg_loop         ; Ripeti finchè R0 > 0
 
 exit_avg_loop
-	DIV R0, R5, R6		; AVG = SUM / N
+	CMP R6, #0
+	MOVLEQ R0, #0
+	SDIVGT R0, R5, R6		; AVG = SUM / N
 	
 	LDMFD sp!,{r4-r8,r10-r11,pc} ; Ripristina i registri e ritorna
-	ENDFUNC
+	ENDP
