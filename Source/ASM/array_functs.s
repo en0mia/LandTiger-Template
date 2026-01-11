@@ -106,6 +106,35 @@ exitMax
 	LDMFD sp!,{r4-r8,r10-r11,pc}	
 	ENDFUNC
 
+; ===== Get second MAX and its index =====
+; This is useful to find 2nd, 3rd etc in an array
+get_second_max FUNCTION
+	; R0 = array, R1 = N, R2 = upperLimit
+	MOV   r12, sp
+	STMFD sp!,{r4-r8,r10-r11,lr}
+	
+	MOV R6, #-1				 ; qualsiasi elemento sarà > -1
+	MOV R7, #0 				 ; indice
+
+loopSecondMax
+	LDR R4, [R0], #4         ; Carica l'elemento corrente in R4 e avanza il puntatore R0
+	CMP R4, R2				 ; Valore maggiore dell'upper limit. va scartato!
+	BGE incr
+	CMP R4, R6               ; Confronta l'elemento corrente (R4) con il massimo attuale (R6)
+	MOVGT R6, R4             ; Se R4 > R6, aggiorna il massimo in R6
+	MOVGT R5, R7			 ; aggiorna il max index
+incr
+	ADD R7, R7, #1			 ; Incrementa l'indice
+	SUBS R1, R1, #1          ; Decrementa il contatore R1
+	BGT loopSecondMax        ; Ripeti finch� R1 > 0
+
+exitSecondMax
+	MOV R0, R6               ; Salva il massimo trovato in R0 (registro di ritorno)
+	MOV R1, R5				 ; Salva index del massimo
+	
+	LDMFD sp!,{r4-r8,r10-r11,pc}	
+	ENDFUNC
+
 ; ===== Get MIN and its index =====
 get_min FUNCTION
 	;R0=Vett (puntatore all'array)
