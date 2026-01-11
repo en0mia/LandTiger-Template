@@ -10,7 +10,7 @@ iterate_over_array PROC
 	STMFD sp!,{r4-r8,r10-r11,lr}
 
 	; ALGORITMO 
-	SUBS R0, R0, #1          ; Decrementa la dimensione (R0 = dim - 1)
+	CMP R0, #0               ; Controlla se la dimensione è <= 0
 	BLE exit_iterate_loop    ; Se R0 <= 0, salta direttamente all'uscita
 
 iterate_loop
