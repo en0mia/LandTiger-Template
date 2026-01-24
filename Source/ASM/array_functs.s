@@ -1,3 +1,14 @@
+; When reading a value from the array it is really important to use the correct instruction
+; based on the type of the values in the array.
+; LDR - reads a word - 32 bit
+; LDRH - reads a half word - 16 bit
+; LDRB - reads a byte - 8 bit
+;
+; Examples: 
+; LDR R4, [R1], #4 - WORD
+; LDRH R4, [R1], #2 - HALF WORD
+; LDRB R4, [R1], #1 - BYTE
+
 ; This file contains templates and actual functions to work on arrays in ARM assembly.
     AREA array_functs, CODE, READONLY
 
