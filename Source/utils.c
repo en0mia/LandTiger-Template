@@ -14,3 +14,17 @@ uint32_t ms_to_mr(uint32_t ms, uint32_t timer_freq, uint32_t prescaler) {
 uint32_t hz_to_mr(uint32_t hz, uint32_t timer_freq, uint32_t prescaler) {
     return timer_freq / ((prescaler + 1) * hz);
 }
+
+// === BIT MANIPULATION ===
+// Se 16 bit, fare solo il primo shift di 8 bit
+uint8_t exor_4_bytes(uint32_t v) {
+    return (uint8_t)(v ^ (v >> 8) ^ (v >> 16) ^ (v >> 24));
+}
+
+uint8_t or_4_bytes(uint32_t v) {
+    return (uint8_t)(v | (v >> 8) | (v >> 16) | (v >> 24));
+}
+
+uint8_t and_4_bytes(uint32_t v) {
+    return (uint8_t)(v & (v >> 8) & (v >> 16) & (v >> 24));
+}
