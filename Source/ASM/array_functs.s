@@ -87,6 +87,29 @@ exit
 	LDMFD sp!,{r4-r8,r10-r11,pc}		
 	ENDP
 
+; ===== Insert into Sorted Array =====
+insert PROC
+    ; R0 = numero elementi (N)
+    ; R1 = vettore ordinato (byte)
+    ; R2 = nuovo valore da inserire (byte)
+
+    STMFD   sp!, {r4-r7, lr}
+
+    SUB     R4, R0, #1      ; i = N-1 (ultimo elemento valido)
+
+loop
+    LDRB    R5, [R1, R4]    ; A[i]
+    CMP     R5, R2
+	ADDGT 	R6, R4, #1
+    STRBGT  R5, [R1, R6] ; shift A[i] -> A[i+1]
+    SUBGT   R4, R4, #1      ; i--
+    BGT     loop
+
+    STRB    R2, [R1, R4, #1] ; inserisci nuovo valore
+
+    LDMFD   sp!, {r4-r7, pc}
+    ENDP
+
 ; ===== Get MAX and its index =====
 get_max FUNCTION
 	;R0=Vett
