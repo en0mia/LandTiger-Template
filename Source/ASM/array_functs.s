@@ -105,7 +105,8 @@ loop
     SUBGT   R4, R4, #1      ; i--
     BGT     loop
 
-    STRB    R2, [R1, R4, #1] ; inserisci nuovo valore
+	ADD 	R4, R4, #1
+    STRB    R2, [R1, R4] ; inserisci nuovo valore
 
     LDMFD   sp!, {r4-r7, pc}
     ENDP
