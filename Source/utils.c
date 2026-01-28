@@ -33,10 +33,7 @@ uint8_t not(uint8_t v) {
     return ~v;
 }
 
-void init() {
-    // initialize variables
-}
-
+// === LEDs ===
 void blink_leds_value_status(uint8_t v, int leds_are_on) {
     if (leds_are_on == 1) {
         LED_OffAll();
@@ -58,4 +55,8 @@ void blink_all_leds() {
 
 void blink_all_leds_status(int leds_are_on) {
     blink_leds_value_status(255, leds_are_on);
+}
+
+void init() {
+    // initialize variables
 }
