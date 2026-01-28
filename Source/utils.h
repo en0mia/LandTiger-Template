@@ -10,3 +10,5 @@ uint8_t or_4_bytes(uint32_t v);
 uint8_t and_4_bytes(uint32_t v);
 
 uint8_t not(uint8_t v);
+
+void init();

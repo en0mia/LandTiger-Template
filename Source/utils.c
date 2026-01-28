@@ -32,3 +32,7 @@ uint8_t and_4_bytes(uint32_t v) {
 uint8_t not(uint8_t v) {
     return ~v;
 }
+
+void init() {
+    // initialize variables
+}
