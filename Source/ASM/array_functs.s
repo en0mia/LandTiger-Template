@@ -366,3 +366,34 @@ consuma
 fine_merge
     LDMFD   sp!, {r4-r8, r10-r11, pc}
     ENDP
+
+; === FIND an element in an array ===
+find PROC
+    ; FIND: controlla se un valore è presente in un array di int32
+    ; R0 = numero di elementi
+    ; R1 = puntatore array
+    ; R2 = valore da cercare
+    ; R0 = 1 se trovato, 0 se non trovato
+
+    MOV     r12, sp
+    STMFD   sp!, {r4-r8, r10-r11, lr}
+
+    CMP     R0, #0
+    MOVLE   R0, #0          ; se array vuoto, risultato = 0
+    BLE     exit_find
+
+    MOV     R3, R0          ; contatore
+    MOV     R4, R1          ; puntatore array
+    MOV     R0, #0          ; risultato iniziale = 0
+
+find_loop
+    LDR     R5, [R4], #4    ; carica elemento corrente e avanza il puntatore
+    CMP     R5, R2
+    MOVEQ   R0, #1          ; se trovato, imposta risultato = 1
+
+    SUBS    R3, R3, #1      ; decrementa contatore
+    BGT     find_loop        ; continua finché contatore > 0
+
+exit_find:
+    LDMFD   sp!, {r4-r8, r10-r11, pc} ; ripristina registri e ritorna
+    ENDP
