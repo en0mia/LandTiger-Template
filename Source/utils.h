@@ -12,3 +12,11 @@ uint8_t and_4_bytes(uint32_t v);
 uint8_t not(uint8_t v);
 
 void init();
+
+void blink_leds_value(uint8_t v);
+
+void blink_leds_value_status(uint8_t v, int leds_are_on);
+
+void blink_all_leds();
+
+void blink_all_leds_status(int leds_are_on);
