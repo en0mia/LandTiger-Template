@@ -30,7 +30,13 @@ asm_funct FUNCTION
 	; to parameters in the stack
 	MOV   r12, sp
 	; save volatile registers
-	STMFD sp!,{r4-r8,r10-r11,lr}				
+	STMFD sp!,{r4-r8,r10-r11,lr}	
+
+	; copy parameters to avoid losing them and allow easy swaps
+	MOV R4, R0
+	MOV R5, R1
+	MOV R6, R2
+	MOV R7, R3			
 	
 	;STMFD sp!,{R0-R3}
 	;MOV R1,R0 ; ho bisogno di VETT address in R1
