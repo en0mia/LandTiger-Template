@@ -390,4 +390,12 @@ end:
     LDMFD   sp!, {r4-r8, r10-r11, pc}
 
     ENDFUNC
-	END	
+
+concatenazione PROC
+	; Concat 2 values on 16bit each to make a 32bit val
+	; R0 = val1
+	; R1 = val2
+
+	LSL R4, R0, #16
+	ORR R0, R4, R1
+	ENDP
