@@ -34,8 +34,6 @@ uint8_t not(uint8_t v) {
 }
 
 // === LEDs ===
-volatile unsigned short LED_BLINK_ON = 0;
-
 void blink_leds_value(uint8_t v) {
     if (LED_BLINK_ON == 1) {
         LED_OffAll();
