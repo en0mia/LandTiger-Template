@@ -20,12 +20,14 @@ iterate_over_array PROC
 	MOV   r12, sp
 	STMFD sp!,{r4-r8,r10-r11,lr}
 
+	MOV R5, R1 				; Copia in R5, per non alterare il puntatore originale
+
 	; ALGORITMO 
 	CMP R0, #0               ; Controlla se la dimensione è <= 0
 	BLE exit_iterate_loop    ; Se R0 <= 0, salta direttamente all'uscita
 
 iterate_loop
-	LDR R4, [R1], #4         ; Carica l'elemento corrente in R4 e avanza il puntatore R1
+	LDR R4, [R5], #4         ; Carica l'elemento corrente in R4 e avanza il puntatore R1
 
 	; YOUR CODE
 	SUBS R0, R0, #1          ; Decrementa il contatore R0
