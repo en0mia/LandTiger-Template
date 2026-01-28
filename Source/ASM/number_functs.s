@@ -359,3 +359,35 @@ exitFuncV
 
     ENDFUNC
 	END	
+
+; === Generate fibonacci sequence up to M elements ===
+fibonacci FUNCTION
+	; R0 = M
+
+	STMFD   sp!, {r4-r8, r10-r11, lr}
+
+    CMP     R0, #1          ; se M <= 1
+    BLE     end             ; ritorna M
+
+    MOV     R1, #0          ; fib(0)
+    MOV     R2, #1          ; fib(1)
+    MOV     R3, #2          ; contatore i = 2
+
+loop:
+    ADD     R4, R1, R2      ; fib(i) = fib(i-1) + fib(i-2)
+
+	; Your logic here: R4 is the current Fibonacci number
+
+    MOV     R1, R2          ; aggiorna fib(i-2)
+    MOV     R2, R4          ; aggiorna fib(i-1)
+    ADD     R3, R3, #1      ; i++
+    CMP     R3, R0
+    BLE     loop
+
+    MOV     R0, R2          ; risultato in R0
+
+end:
+    LDMFD   sp!, {r4-r8, r10-r11, pc}
+
+    ENDFUNC
+	END	
