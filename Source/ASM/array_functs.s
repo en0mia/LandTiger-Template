@@ -287,3 +287,82 @@ exit_avg_loop
 	
 	LDMFD sp!,{r4-r8,r10-r11,pc} ; Ripristina i registri e ritorna
 	ENDP
+
+read_arrays_chrono PROC
+    ; Merge cronologico di due vettori ordinati di int32
+    ;
+    ; R0 = VETT1 (int32*)
+    ; R1 = M     (num elementi VETT1)
+    ; R2 = VETT2 (int32*)
+    ; R3 = N     (num elementi VETT2)
+    ;
+    ; Durante il loop:
+    ;   R4 = valore corrente
+    ;   R5 = sorgente (1 = VETT1, 2 = VETT2)
+
+    MOV     r12, sp
+    STMFD   sp!, {r4-r8, r10-r11, lr}
+
+    ; ALGORITMO
+    MOV     R6, #0          ; i = 0 (indice VETT1)
+    MOV     R7, #0          ; j = 0 (indice VETT2)
+
+merge_loop
+    ; controlla se VETT1 è finito
+    CMP     R6, R1
+    BGE     vett1_finito
+
+    ; controlla se VETT2 è finito
+    CMP     R7, R3
+    BGE     vett2_finito
+
+    ; entrambi validi → confronto
+    LDR     R8, [R0, R6, LSL #2]   ; VETT1[i]
+    LDR     R10,[R2, R7, LSL #2]   ; VETT2[j]
+
+    CMP     R8, R10
+    BLE     prendi_vett1
+
+prendi_vett2
+    MOV     R4, R10         ; valore
+    MOV     R5, #2          ; sorgente = VETT2
+    ADD     R7, R7, #1      ; j++
+    B       consuma
+
+prendi_vett1
+    MOV     R4, R8          ; valore
+    MOV     R5, #1          ; sorgente = VETT1
+    ADD     R6, R6, #1      ; i++
+
+    B       consuma
+
+vett1_finito
+    CMP     R7, R3
+    BGE     fine_merge
+
+    LDR     R4, [R2, R7, LSL #2]
+    MOV     R5, #2
+    ADD     R7, R7, #1
+    B       consuma
+
+vett2_finito
+    CMP     R6, R1
+    BGE     fine_merge
+
+    LDR     R4, [R0, R6, LSL #2]
+    MOV     R5, #1
+    ADD     R6, R6, #1
+
+consuma
+    ; ----------------------------------------
+    ; R4 = timestamp corrente (int32)
+    ; R5 = sorgente
+    ;       1 → VETT1
+    ;       2 → VETT2
+    ; Qui inserisci la tua logica
+    ; ----------------------------------------
+    B       merge_loop
+
+fine_merge
+    LDMFD   sp!, {r4-r8, r10-r11, pc}
+    ENDP
