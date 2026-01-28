@@ -391,6 +391,7 @@ end:
 
     ENDFUNC
 
+; === CONCATENAZIONE ===
 concatenazione PROC
 	; Concat 2 values on 16bit each to make a 32bit val
 	; R0 = val1
@@ -399,3 +400,18 @@ concatenazione PROC
 	LSL R4, R0, #16
 	ORR R0, R4, R1
 	ENDP
+
+; === ISEVEN Returns 1 if even 0 if odd ===
+isEven PROC
+    ; R0 = numero da controllare
+    ; ritorna R0 = 1 se pari, 0 se dispari
+
+    MOV     r12, sp
+    STMFD   sp!, {r4-r8,r10-r11,lr}
+
+    ANDS     R1, R0, #1     ; maschera il bit meno significativo
+    MOV     R0, #0          ; risultato default = 0
+    MOVEQ   R0, #1          ; se LSB = 0 → numero pari
+
+    LDMFD   sp!, {r4-r8,r10-r11,pc} ; ripristina registri e ritorna
+    ENDP
