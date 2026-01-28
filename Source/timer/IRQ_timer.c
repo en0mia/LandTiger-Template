@@ -11,6 +11,7 @@
 #include "timer.h"
 #include "../led/led.h"
 #include "../utils.h"
+#include "include_globals.h"
 
 /******************************************************************************
 ** Function name:		Timer0_IRQHandler

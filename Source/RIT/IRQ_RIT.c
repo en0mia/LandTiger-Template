@@ -11,6 +11,7 @@
 #include "RIT.h"
 #include "../led/led.h"
 #include "../sample.h"
+#include "include_globals.h"
 
 /* User Imports */
 
