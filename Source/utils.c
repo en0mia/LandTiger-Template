@@ -34,18 +34,27 @@ uint8_t not(uint8_t v) {
 }
 
 // === LEDs ===
-void blink_leds_value(uint8_t v) {
-    if (LED_BLINK_STATUS == 1) {
+void blink_leds_value_status(uint8_t v, int leds_are_on) {
+    if (leds_are_on == 1) {
         LED_OffAll();
-        LED_BLINK_STATUS = 0;
+        leds_are_on = 0;
     } else {
         LED_Out(v);
-        LED_BLINK_STATUS = 1;
+        leds_are_on = 1;
     }
+}
+
+void blink_leds_value(uint8_t v) {
+    static int leds_are_on = 0;
+    blink_leds_value_status(v, leds_are_on);
 }
 
 void blink_all_leds() {
     blink_leds_value(255);
+}
+
+void blink_all_leds_status(int leds_are_on) {
+    blink_leds_value_status(255, leds_are_on);
 }
 
 void init() {
