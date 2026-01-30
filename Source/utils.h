@@ -2,7 +2,7 @@
 #include "functions.h"	
 
 // === GLOBAL VARIABLES ===
-volatile unsigned short LED_BLINK_ON = 0;
+extern volatile unsigned short LED_BLINK_ON;
 
 // === MR ===
 uint32_t s_to_mr(uint32_t seconds, uint32_t timer_freq, uint32_t prescaler);

@@ -396,6 +396,6 @@ find_loop
     SUBS    R3, R3, #1      ; decrementa contatore
     BGT     find_loop        ; continua finché contatore > 0
 
-exit_find:
+exit_find
     LDMFD   sp!, {r4-r8, r10-r11, pc} ; ripristina registri e ritorna
     ENDP
