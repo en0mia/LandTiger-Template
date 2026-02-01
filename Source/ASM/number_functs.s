@@ -252,23 +252,55 @@ exitPrime
 	LDMFD sp!,{r4-r8,r10-r11,pc}
 	ENDFUNC
 
+; ===== Multiply through subsequent additions =====
+multiply FUNCTION
+		;R0 = moltiplicando
+		;R1 = moltiplicatore
+        STMFD sp!,{r4-r8,r10-r11,lr}
+
+        MOV     R4, R0          ; moltiplicando
+        MOV     R5, R1          ; moltiplicatore
+        MOV     R6, #0          ; risultato = 0
+
+        CMP     R5, #0          ; se moltiplicatore == 0
+        BEQ     end_multiply
+loop_multiply
+        ADD     R6, R6, R4
+        SUB     R5, R5, #1
+        CMP     R5, #0
+        BNE     loop_multiply
+end_multiply
+        MOV     R0, R6
+
+        LDMFD sp!,{r4-r8,r10-r11,pc}
+        ENDFUNC
+
+
 ; ===== Divide through subsequent subtracts =====
-DIVISION FUNCTION 
-	; save current SP for a faster access 
-	; to parameters in the stack
-	MOV   r12, sp
-	; save volatile registers
-	STMFD sp!,{r4-r8,r10-r11,lr}
-	MOV R8,R0                ;Copy of data from main function
-	MOV R9,R2                ;Copy of divider from main function
-LOOP_DIVISION
-	SUB R8,R8,R9             ;Successive subtraction for division
-	ADD R10,R10,#01          ;Counter for holding the result of division
-	CMP R8,R9                ;Compares for non-zero result
-	BPL LOOP_DIVISION                 ;Repeats the loop if subtraction is still needed
-	
-	LDMFD sp!,{r4-r8,r10-r11,pc}
-	ENDFUNC
+divide FUNCTION
+		;R0 = dividendo
+		;R1 = divisore
+        STMFD sp!,{r4-r8,r10-r11,lr}
+
+        MOV     R4, R0          ; dividendo
+        MOV     R5, R1          ; divisore
+        MOV     R6, #0          ; quoziente = 0
+
+        ; se dividendo < divisore → quoziente = 0
+        CMP     R4, R5
+        BLT     end_divide
+loop_divide
+        SUB     R4, R4, R5      ; dividendo -= divisore
+        ADD     R6, R6, #1      ; quoziente++
+
+        CMP     R4, R5          ; continua finché R4 >= R5
+        BGE     loop_divide
+end_divide
+        MOV     R0, R6          ; quoziente
+        MOV     R1, R4          ; resto
+
+        LDMFD sp!,{r4-r8,r10-r11,pc}
+        ENDFUNC
 	
 next_state FUNCTION
 	; save current SP for a faster access 
