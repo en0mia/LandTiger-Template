@@ -225,19 +225,19 @@ Prime_or_Not FUNCTION
 	MOV   r12, sp
 	; save volatile registers
 	STMFD sp!,{r4-r8,r10-r11,lr}	
-	MOV R0,#15               ;Number which you want to test
-	CMP R0,#01               ;Comparing with 01
+	MOV R4,#15               ;Number which you want to test
+	CMP R4,#01               ;Comparing with 01
 	BEQ PRIME                ;If equal declare directly as prime
-	CMP R0,#02               ;Compare with 02
+	CMP R4,#02               ;Compare with 02
 	BEQ PRIME                ;If equal declare directly as prime
-	MOV R1,R0                ;Copy test number in R1
-	MOV R2,#02               ;Initial divider
+	MOV R1,#02               ;Initial divider
 UP                     
-	BL DIVISION              ;Call for division sub-function
-	CMP R8,#00               ;Compare remainder with 0
+	MOV R0, R4
+	BL divide              ;Call for division sub-function
+	CMP R1,#00               ;Compare remainder with 0
 	BEQ NOTPRIME             ;If equal then its not prime
-	ADD R2,R2,#01            ;If not increment divider and check
-	CMP R2,R1                ;Compare divider with test number
+	ADD R1,R1,#01            ;If not increment divider and check
+	CMP R2,R4                ;Compare divider with test number
 	BEQ PRIME                ;All possible numbers are done means It's prime
 	B UP                     ;If not repeat until end
 NOTPRIME 
