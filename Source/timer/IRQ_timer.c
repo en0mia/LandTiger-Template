@@ -12,6 +12,9 @@
 #include "../led/led.h"
 #include "../utils.h"
 
+// How to check if a timer triggered but did not finish with the handler yet:
+// if (LPC_TIM2->IR & 0x01)
+
 /******************************************************************************
 ** Function name:		Timer0_IRQHandler
 **
