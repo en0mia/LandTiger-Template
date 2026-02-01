@@ -34,3 +34,5 @@ check_upperCase		FUNCTION
 nope2			mov r0, #0
 				LDMFD sp!,{r4-r8,r10-r11,pc}
 				ENDFUNC
+				
+				END

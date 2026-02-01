@@ -124,3 +124,4 @@ call_svc FUNCTION
 	; restore volatile registers
 	;LDMFD sp!,{pc}
 	ENDFUNC
+	END
