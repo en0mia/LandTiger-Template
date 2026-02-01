@@ -21,6 +21,7 @@
 #include "RIT/RIT.h"
 #include "joystick/joystick.h"
 #include "sample.h"
+#include "adc/adc.h"
 
 #ifdef SIMULATOR
 extern uint8_t ScaleFlag; // <- ScaleFlag needs to visible in order for the emulator to find the symbol (can be placed also inside system_LPC17xx.h but since it is RO, it needs more work)
@@ -49,6 +50,13 @@ int main (void) {
 	
 	// Joystick
 	//joystick_init();
+	
+	// ADC
+	// ADC_init();
+	// To read values of ADC, first produce the value:
+	// ADC_start_conversion();
+	// Then, read it in the ADC IRQ handler
+	
 	
 	// RIT
 	//init_RIT(0x004C4B40); ///* RIT Initialization 50 msec       */
